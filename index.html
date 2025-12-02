@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEND YOUR MESSAGE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="wall-container">
+        <h1>ENTER THE MESSAGE</h1>
+        <div id="alphabet-wall" class="alphabet-wall">
+            </div>
+        
+        <div class="message-area">
+            <h2>Your Message:</h2>
+            <p id="current-message" class="current-message"></p>
+        </div>
+        
+        <div class="actions">
+            <button id="clear-btn">Clear Message</button>
+            <button id="generate-link-btn">Generate Link</button>
+        </div>
+
+        <div class="link-output">
+            <h2>Shareable Link:</h2>
+            <input type="text" id="share-link-input" readonly placeholder="Click 'Generate Link' to create a link.">
+            <a id="open-link" href="#" target="_blank" style="display: none;">Open Message</a>
+        </div>
+    </div>
+
+    <audio id="background-music" loop autoplay volume="0.5">
+        <source src="BG ST.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+
+    <script>
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const wall = document.getElementById('alphabet-wall');
+        const currentMessage = document.getElementById('current-message');
+        const clearBtn = document.getElementById('clear-btn');
+        const generateLinkBtn = document.getElementById('generate-link-btn');
+        const shareLinkInput = document.getElementById('share-link-input');
+        const openLink = document.getElementById('open-link');
+
+        let message = "";
+
+        // 1. Create the alphabet wall dynamically
+        alphabet.split('').forEach(letter => {
+            const letterDiv = document.createElement('div');
+            letterDiv.classList.add('wall-letter');
+            letterDiv.textContent = letter;
+            letterDiv.addEventListener('click', () => addLetter(letter));
+            wall.appendChild(letterDiv);
+        });
+
+        // 2. Add letter to the message
+        function addLetter(letter) {
+            message += letter;
+            currentMessage.textContent = message;
+        }
+
+        // 3. Clear the message
+        clearBtn.addEventListener('click', () => {
+            message = "";
+            currentMessage.textContent = "";
+            shareLinkInput.value = "";
+            openLink.style.display = 'none';
+        });
+
+        // 4. Generate the shareable link
+        generateLinkBtn.addEventListener('click', () => {
+            if (message.length === 0) {
+                alert("Please enter a message first!");
+                return;
+            }
+
+            // Encode the message to safely pass it in the URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // NOTE: The receiver.html file must be in the same directory.
+            const link = `receiver.html?message=${encodedMessage}`;
+            
+            shareLinkInput.value = window.location.origin + window.location.pathname.replace('index.html', 'receiver.html') + `?message=${encodedMessage}`;
+            openLink.href = link;
+            openLink.style.display = 'inline-block';
+            
+            alert("Link generated! You can copy it or click 'Open Message'.");
+        });
+    </script>
+</body>
+</html>

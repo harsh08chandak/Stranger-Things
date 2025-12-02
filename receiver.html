@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MESSAGE FROM STRANGER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="wall-container">
+        <h1>MESSAGE FROM UPSIDE DOWN WORLD</h1>
+        <p class="current-message">Look closely at the lights...</p>
+
+        <div id="alphabet-wall" class="alphabet-wall">
+            </div>
+        
+    </div>
+
+    <audio id="background-music" loop autoplay volume="0.5">
+        <source src="BG ST.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const wall = document.getElementById('alphabet-wall');
+        
+        // 1. Get the message from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedMessage = urlParams.get('message');
+        const message = encodedMessage ? decodeURIComponent(encodedMessage).toUpperCase() : "";
+
+        // Fallback if no message is found
+        if (!message) {
+            document.querySelector('.current-message').textContent = "No message found in the link. Ask the sender to re-generate the link.";
+        }
+
+        // 2. Create the alphabet wall dynamically
+        const letterElements = {};
+        alphabet.split('').forEach(letter => {
+            const letterDiv = document.createElement('div');
+            letterDiv.classList.add('wall-letter');
+            letterDiv.textContent = letter;
+            wall.appendChild(letterDiv);
+            letterElements[letter] = letterDiv; // Store reference to the element
+        });
+
+        // 3. Blinking Logic
+        let index = 0;
+        let isBlinking = false;
+
+        function blinkNextLetter() {
+            if (index >= message.length) {
+                // Message finished, start over or stop
+                document.querySelector('.current-message').textContent = `The full message was: "${message}"`;
+                index = 0; // Loop the message blink
+                setTimeout(blinkNextLetter, 5000); // Wait 5 seconds before repeating
+                return;
+            }
+
+            const currentBlinkingLetter = message[index];
+            const targetElement = letterElements[currentBlinkingLetter];
+
+            if (targetElement && isBlinking) {
+                targetElement.classList.remove('active'); // Turn off the previous letter
+            }
+            
+            if (targetElement) {
+                // Blink sequence: ON -> wait -> OFF -> wait -> Next Letter
+                targetElement.classList.add('active'); // Turn ON (blinking light effect)
+                
+                // Audio cue (optional)
+                // const audio = new Audio('light_sound.mp3'); 
+                // audio.play();
+
+                isBlinking = true;
+
+                setTimeout(() => {
+                    targetElement.classList.remove('active'); // Turn OFF
+                    isBlinking = false;
+                    index++;
+                    
+                    // Delay before the next letter
+                    setTimeout(blinkNextLetter, 800); 
+                }, 1500); // Light stays ON for 1.5 seconds
+
+            } else {
+                // If character is not a letter (like a space or punctuation), skip it
+                index++; 
+                setTimeout(blinkNextLetter, 500); 
+            }
+        }
+
+        // Start the process only if a message exists
+        if (message) {
+             // Initial delay before the message starts
+            setTimeout(blinkNextLetter, 2000); 
+        }
+
+    </script>
+</body>
+</html>

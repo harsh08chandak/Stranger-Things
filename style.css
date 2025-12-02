@@ -1,0 +1,172 @@
+/* Custom Font (Mimicking the look, you can find a better brush font) */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+body {
+    background-color: #222;
+    color: #fff;
+    font-family: 'Permanent Marker', cursive; /* Stranger Things-like writing style */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align from the top */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.wall-container {
+    width: 90%;
+    max-width: 800px;
+    padding: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="p" width="100" height="100" patternUnits="userSpaceOnUse"><path d="m0 0h100v100h-100z" fill="#D4C9C3"/><path d="m10 0v100" stroke-width="1" stroke="#C4B4AD"/></pattern></defs><rect width="100%" height="100%" fill="url(#p)"/></svg>'); /* Simple repeating wallpaper texture */
+    background-size: 100px 100px;
+    border: 10px solid #444;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+h1 {
+    color: #d61818;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.alphabet-wall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px 25px; /* Spacing between letters */
+    padding: 20px 0;
+    position: relative;
+    /* Add the string lights effect */
+    background: 
+        /* The wires */
+        linear-gradient(to right, transparent 5%, #4B382F 5%, #4B382F 95%, transparent 95%),
+        linear-gradient(to right, transparent 5%, #4B382F 5%, #4B382F 95%, transparent 95%),
+        linear-gradient(to right, transparent 5%, #4B382F 5%, #4B382F 95%, transparent 95%);
+    background-size: 100% 5px, 100% 5px, 100% 5px;
+    background-repeat: no-repeat;
+    background-position: 0px 1%, 0 32%, 0 63%;
+}
+
+.wall-letter {
+    font-size: 2em;
+    color: #dcdbd9; /* Dark, smudged paint color */
+    cursor: pointer;
+    padding:  10px;
+    user-select: none;
+    transition: color 0.1s;
+    position: relative;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.wall-letter:hover {
+    color: #111; /* Darker on hover for a slight interaction feel */
+}
+
+/* Lightbulb effect */
+.wall-letter::before {
+    content: '';
+    position: absolute;
+    top: -25px; /* Position above the letter */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(100, 100, 100, 0.5); /* Dim base color */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+
+/* Active/Blinking Letter Styling */
+.wall-letter.active::before {
+    /* Random colors for the lights, similar to the show */
+    background-color: rgb(255, 165, 0); /* Orange/Yellow */
+    box-shadow: 0 0 5px #F7C873, 0 0 15px #F7C873, 0 0 30px #F7C873;
+    animation: pulse 0.1s infinite alternate; /* The actual blinking effect */
+}
+
+/* Specific colors for some letters to mimic the image */
+.wall-letter:nth-child(2)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(5)::before { background-color: rgb(255, 255, 0); } /* E - Yellow */
+.wall-letter:nth-child(8)::before { background-color: rgb(255, 0, 255); } /* H - Pink */
+.wall-letter:nth-child(9)::before { background-color: rgb(255, 0, 0); } /* B - Blue */
+.wall-letter:nth-child(1)::before { background-color: rgb(255, 255, 0); } /* E - Yellow */
+.wall-letter:nth-child(10)::before { background-color: rgb(255, 255, 0); } /* H - Pink */
+.wall-letter:nth-child(6)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(4)::before { background-color: rgb(255, 0, 0); } /* E - Yellow */
+.wall-letter:nth-child(3)::before { background-color: rgb(255, 0, 255); } /* H - Pink */
+.wall-letter:nth-child(7)::before { background-color: rgb(255, 0, 0); } /* B - Blue */
+.wall-letter:nth-child(15)::before { background-color: rgb(255, 0, 0); } /* H - Pink */
+.wall-letter:nth-child(11)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(12)::before { background-color: rgb(255, 0, 0); } /* E - Yellow */
+.wall-letter:nth-child(19)::before { background-color: rgb(255, 0, 255); } /* H - Pink */
+.wall-letter:nth-child(14)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(16)::before { background-color: rgb(255, 255, 0); } /* E - Yellow */
+.wall-letter:nth-child(13)::before { background-color: rgb(255, 0, 255); } /* H - Pink */.wall-letter:nth-child(17)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(18)::before { background-color: rgb(255, 255, 0); } /* E - Yellow */
+.wall-letter:nth-child(26)::before { background-color: rgb(255, 0, 0); } /* H - Pink */
+.wall-letter:nth-child(20)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(25)::before { background-color: rgb(255, 255, 0); } /* E - Yellow */
+.wall-letter:nth-child(21)::before { background-color: rgb(255, 0, 255); } /* H - Pink */.wall-letter:nth-child(22)::before { background-color: rgb(0, 191, 255); } /* B - Blue */
+.wall-letter:nth-child(24)::before { background-color: rgb(255, 0, 0); } /* E - Yellow */
+.wall-letter:nth-child(23)::before { background-color: rgb(255, 0, 255); } /* H - Pink */
+/* and so on, you can map all 26 colors */
+
+/* The actual blinking/pulsing animation */
+@keyframes pulse {
+    from { opacity: 1; box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor; }
+    to { opacity: 0.8; box-shadow: 0 0 3px currentColor, 0 0 8px currentColor; }
+}
+
+/* Sender Page Specific Styles */
+.message-area, .actions, .link-output {
+    margin-top: 30px;
+    padding: 15px;
+    border: 2px solid #333;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.current-message {
+    font-size: 2em;
+    color: #C12A2A; /* Red text for the message */
+    min-height: 40px;
+    word-wrap: break-word;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-family: inherit;
+    font-size: 1.1em;
+    background-color: #C12A2A;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #A31E1E;
+}
+
+#share-link-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    font-size: 1em;
+    border: 1px solid #444;
+}
+
+#open-link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
